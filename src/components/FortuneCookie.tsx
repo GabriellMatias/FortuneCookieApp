@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
-import axios from 'axios';
 import { api } from '../services/api/api';
 
 export default function FortuneCookie() {
@@ -8,6 +7,7 @@ export default function FortuneCookie() {
   const [fortune, setFortune] = useState(''); 
   const [loading, setLoading] = useState(false);  
 
+  // Função para quebrar o biscoito e pegar uma frase
   const getFortune = async () => {
     setLoading(true);
     try {
@@ -20,6 +20,12 @@ export default function FortuneCookie() {
     } finally {
       setLoading(false); 
     }
+  };
+
+  // Função para resetar o biscoito
+  const resetCookie = () => {
+    setBroken(false);
+    setFortune('');
   };
 
   return (
@@ -42,12 +48,15 @@ export default function FortuneCookie() {
           {loading ? (
             <ActivityIndicator size="large" color="#000" className="mt-4" />
           ) : (
-            <Text className="mt-4 text-lg text-center">{fortune}</Text>
+            <>
+              <Text className="mt-4 text-lg text-center">{fortune}</Text>
+              <TouchableOpacity onPress={resetCookie} className="mt-4">
+                <Text className="text-blue-500 text-lg">Quebrar outro biscoito</Text>
+              </TouchableOpacity>
+            </>
           )}
         </View>
       )}
     </View>
   );
-};
-
-
+}
